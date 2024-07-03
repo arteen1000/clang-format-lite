@@ -20,16 +20,16 @@ We are also in the process of uploading the package to MELPA.
 
 ** Configuration
 
-There are two primariy public interfaces.
+There are two primary public interfaces.
 
 - clang-format-remote-save-hook :: This is a buffer-local hook that can be added to a mode to
-  determine whether you would like to =clang-format= that particular file on save.
+  determine to enable =clang-format= on save.
   Furthermore, the variable =clang-format-remote-only-if-config= determines whether or not 
-  =clang-format= is run.
+  =clang-format= is actually run.
 
-- clang-format-remote-only-if-config :: This variable can be set to either =nil= or non-=nil=.
+- clang-format-remote-only-if-config :: This variable can be set to either =nil= or =t=.
   If =nil=, then =clang-format= is always run.
-  If non-=nil=, then =clang-format= is run only when a =.clang-format= file is found.
+  If =t=, then =clang-format= is run only when a =.clang-format= file is found.
 
 Here is a simple example:
 #+BEGIN_SRC emacs-lisp
