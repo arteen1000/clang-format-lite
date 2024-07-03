@@ -1,0 +1,42 @@
+* clang-format-remote
+
+This is a new take on the [[https://melpa.org/#/clang-format][clang-format]] package that supports formatting remote files,
+is actively maintained, and provides a configurable save hook to allow formatting on
+save.
+
+** Getting Started
+
+Make sure you have =clang-format= installed on your machine.
+
+Assuming =clang-format-remote.el= is present under =~/.emacs.d/clang-format-remote/=,
+you can paste the following code into your init file:
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/clang-format-remote/")
+(require 'clang-format-remote)
+#+END_SRC
+
+We are also in the process of uploading the package to MELPA.
+
+** Configuration
+
+There are two primariy public interfaces.
+
+- clang-format-save-hook :: This is a buffer-local hook that can be added to a mode to
+  determine whether you would like to =clang-format= that particular file on save.
+  Furthermore, the variable =clang-format-only-if-config= determines whether or not 
+  =clang-format= is run.
+
+- clang-format-only-if-config :: This variable can be set to either =nil= or non-=nil=.
+  If =nil=, then =clang-format= is always run.
+  If non-=nil=, then =clang-format= is run only when a =.clang-format= file is found.
+
+Here is a simple example:
+#+BEGIN_SRC emacs-lisp
+;; run clang-format only if the .clang-format file is found
+(setq clang-format-only-if-config t)
+;; and we are in c++ mode
+(add-hook 'c-mode-hook #'clang-format-save-hook)
+;; or we are in c mode
+(add-hook 'c-mode-hook #'clang-format-save-hook)
+#+END_SRC
