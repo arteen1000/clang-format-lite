@@ -1,12 +1,12 @@
-;;; clang-format-remote.el --- clang-format that works with remote files -*- lexical-binding: t; -*-
+;;; clang-format-remote.el --- A clang-format package that works with remote files
 
 ;; Copyright (C) 2024 Arteen Abrishami
 
 ;; Author: Arteen Abrishami <arteen@ucla.edu>
 ;; Maintainer: Arteen Abrishami <arteen@ucla.edu>
-;; URL: htpps://github.com/arteen1000/clang-format-remote
+;; URL: https://github.com/arteen1000/clang-format-remote
 ;; Version: 0.0.1
-;; Package-Requires ((emacs "29.3"))
+;; Package-Requires ((emacs "24.1"))
 ;; Keywords: tools, c, c++, clang-format, formatting
 
 ;; This file is not a part of GNU Emacs.
@@ -38,18 +38,18 @@
   "Clang format for remote/local files with customizable save hook."
   :group 'tools)
 
-(defcustom clang-format-only-if-config nil
-  "Variable to determine when clang-format-save-hook should run clang-format.
+(defcustom clang-format-remote-only-if-config nil
+  "Determines whether clang-format-remote-save-hook should run `clang-format'.
 
 Possible values: nil, non-nil
-nil: clang-format always runs when hook is attached
+nil: `clang-format' always runs when hook is attached
 non-nil: clang-format runs only when \".clang-format\" file is found"
   
   :type 'boolean
   :group 'clang-format-remote)
 
-(defun clang-format-on-disk ()
-  "Run clang-format in-place on the file on disk if it exists."
+(defun clang-format-remote-on-disk ()
+  "Run `clang-format' in-place on the file on disk if it exists."
   (interactive)
   (let ((full-path (buffer-file-name)))
     (when full-path
@@ -57,14 +57,14 @@ non-nil: clang-format runs only when \".clang-format\" file is found"
         (shell-command (format "clang-format -i %s" rel-path))
         (revert-buffer 'no-prompt)))))
 
-(defun clang-format-save-hook ()
-  "Hook to clang-format local/remote files on save with configuration option."
+(defun clang-format-remote-save-hook ()
+  "Hook to `clang-format' local/remote files on save with configuration option."
   (add-hook 'after-save-hook
             (lambda ()
-              (if clang-format-only-if-config
+              (if clang-format-remote-only-if-config
                   (when (locate-dominating-file "." ".clang-format")
-                    (clang-format-on-disk))
-                (clang-format-on-disk))) -99 'buffer-local))
+                    (clang-format-remote-on-disk))
+                (clang-format-remote-on-disk))) -99 'buffer-local))
 
 (provide 'clang-format-remote)
 ;;; clang-format-remote.el ends here
