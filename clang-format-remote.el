@@ -55,7 +55,7 @@ non-nil: clang-format runs only when \".clang-format\" file is found"
     (when full-path
       (let ((rel-path (file-relative-name full-path)))
         (shell-command (format "clang-format -i %s" rel-path))
-        (revert-buffer 'no-prompt)))))
+        (revert-buffer t t)))))
 
 (defun clang-format-remote-save-hook ()
   "Hook to `clang-format' local/remote files on save with configuration option."
@@ -64,7 +64,8 @@ non-nil: clang-format runs only when \".clang-format\" file is found"
               (if clang-format-remote-only-if-config
                   (when (locate-dominating-file "." ".clang-format")
                     (clang-format-remote-on-disk))
-                (clang-format-remote-on-disk))) -99 'buffer-local))
+                (clang-format-remote-on-disk))
+              nil) -99 t))
 
 (provide 'clang-format-remote)
 ;;; clang-format-remote.el ends here
