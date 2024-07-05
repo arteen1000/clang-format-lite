@@ -22,8 +22,8 @@ We are also in the process of uploading the package to MELPA.
 
 There are two primary public interfaces.
 
-- clang-format-remote-save-hook :: This is a buffer-local hook that can be added to a mode to
-  determine to enable =clang-format= on save.
+- clang-format-remote-save-hook :: This is a buffer-local hook that can be added to a mode
+  to enable =clang-format= on save.
   Furthermore, the variable =clang-format-remote-only-if-config= determines whether or not 
   =clang-format= is actually run.
 
