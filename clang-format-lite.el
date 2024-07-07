@@ -1,10 +1,10 @@
-;;; clang-format-remote.el --- A clang-format package that works with remote files
+;;; clang-format-lite.el --- A clang-format package with on-save and remote file support
 
 ;; Copyright (C) 2024 Arteen Abrishami
 
 ;; Author: Arteen Abrishami <arteen@ucla.edu>
 ;; Maintainer: Arteen Abrishami <arteen@ucla.edu>
-;; URL: https://github.com/arteen1000/clang-format-remote
+;; URL: https://github.com/arteen1000/clang-format-lite
 ;; Version: 0.0.1
 ;; Package-Requires ((emacs "24.1"))
 ;; Keywords: tools, c, c++, clang-format, formatting
@@ -26,29 +26,29 @@
 
 ;;; Commentary:
 ;; This package primarily provides two public interfaces
-;; (1) `clang-format-save-hook'
-;; (2) `clang-format-only-if-config'
-;; In conjunction, they allow the user to adjust `clang-format' to their needs
-;; with functionality for both remote and local files.
+;; (1) `clang-format-lite-save-hook'
+;; (2) `clang-format-lite-only-if-config'
+;; In conjunction, they allow the user to adjust `clang-format-lite' to their needs.
+;; `clang-format-lite' permits formatting on-save for both remote and local files.
 ;; See the README for more details.
 
 ;;; Code:
 
-(defgroup clang-format-remote nil
+(defgroup clang-format-lite nil
   "Clang format for remote/local files with customizable save hook."
   :group 'tools)
 
-(defcustom clang-format-remote-only-if-config nil
-  "Determines whether clang-format-remote-save-hook should run `clang-format'.
+(defcustom clang-format-lite-only-if-config nil
+  "Determines whether clang-format-lite-save-hook should run `clang-format'.
 
 Possible values: nil, non-nil
 nil: `clang-format' always runs when hook is attached
-non-nil: clang-format runs only when \".clang-format\" file is found"
+non-nil: `clang-format' runs only when \".clang-format\" file is found"
   
   :type 'boolean
-  :group 'clang-format-remote)
+  :group 'clang-format-lite)
 
-(defun clang-format-remote-on-disk ()
+(defun clang-format-lite-on-disk ()
   "Run `clang-format' in-place on the file on disk if it exists."
   (interactive)
   (let ((full-path (buffer-file-name)))
@@ -57,15 +57,15 @@ non-nil: clang-format runs only when \".clang-format\" file is found"
         (shell-command (format "clang-format -i %s" quoted-filename))
         (revert-buffer t t)))))
 
-(defun clang-format-remote-save-hook ()
+(defun clang-format-lite-save-hook ()
   "Hook to `clang-format' local/remote files on save with configuration option."
   (add-hook 'after-save-hook
             (lambda ()
-              (if clang-format-remote-only-if-config
+              (if clang-format-lite-only-if-config
                   (when (locate-dominating-file "." ".clang-format")
-                    (clang-format-remote-on-disk))
-                (clang-format-remote-on-disk))
+                    (clang-format-lite-on-disk))
+                (clang-format-lite-on-disk))
               nil) -99 t))
 
-(provide 'clang-format-remote)
-;;; clang-format-remote.el ends here
+(provide 'clang-format-lite)
+;;; clang-format-lite.el ends here

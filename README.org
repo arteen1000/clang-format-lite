@@ -1,19 +1,25 @@
-* clang-format-remote
+* clang-format-lite
 
-This is a new take on the [[https://melpa.org/#/clang-format][clang-format]] package that supports formatting remote files,
-is actively maintained, and provides a configurable save hook to allow formatting on
-save.
+This is a new take on the [[https://melpa.org/#/clang-format][clang-format]] package. It is distinguished because it provides only
+a lightweight ELisp wrapper around the ~clang-format~ binary. It is also distinct from
+[[https://github.com/SavchenkoValeriy/emacs-clang-format-plus][clang-format+]], which wraps the former to offer an on-save hook. We incorporate this
+functionality directly within our package.
+
+Why **clang-format-lite**?
+- It's lightweight with no dependencies on other packages.
+- Supports formatting of remote files, which the other packages do not.
+- Integrates `clang-format` on-save functionality directly.
 
 ** Getting Started
 
-Make sure you have =clang-format= installed on your machine.
+Ensure the =clang-format= binary is installed on your machine.
 
-Assuming =clang-format-remote.el= is present under =~/.emacs.d/clang-format-remote/=,
-you can paste the following code into your init file:
+If =clang-format-lite.el= is present under =~/.emacs.d/clang-format-lite/=,
+add the following to your init file:
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/clang-format-remote/")
-(require 'clang-format-remote)
+(add-to-list 'load-path "~/.emacs.d/clang-format-lite/")
+(require 'clang-format-lite)
 #+END_SRC
 
 We are also in the process of uploading the package to MELPA.
@@ -22,21 +28,21 @@ We are also in the process of uploading the package to MELPA.
 
 There are two primary public interfaces.
 
-- clang-format-remote-save-hook :: This is a buffer-local hook that can be added to a mode
+- clang-format-lite-save-hook :: This buffer-local hook can be added to a mode hook
   to enable =clang-format= on save.
-  Furthermore, the variable =clang-format-remote-only-if-config= determines whether or not 
+  Furthermore, the variable =clang-format-lite-only-if-config= determines whether or not 
   =clang-format= is actually run.
 
-- clang-format-remote-only-if-config :: This variable can be set to either =nil= or =t=.
+- clang-format-lite-only-if-config :: This variable can be set to either =nil= or =t=.
   If =nil=, then =clang-format= is always run.
   If =t=, then =clang-format= is run only when a =.clang-format= file is found.
 
 Here is a simple example:
 #+BEGIN_SRC emacs-lisp
 ;; run clang-format only if the .clang-format file is found
-(setq clang-format-remote-only-if-config t)
+(setq clang-format-lite-only-if-config t)
 ;; and we are in c++ mode
-(add-hook 'c-mode-hook #'clang-format-remote-save-hook)
+(add-hook 'c++-mode-hook #'clang-format-lite-save-hook)
 ;; or we are in c mode
-(add-hook 'c-mode-hook #'clang-format-remote-save-hook)
+(add-hook 'c-mode-hook #'clang-format-lite-save-hook)
 #+END_SRC
