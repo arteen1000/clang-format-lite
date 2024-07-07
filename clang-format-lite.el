@@ -49,12 +49,11 @@ non-nil: `clang-format' runs only when \".clang-format\" file is found"
   :group 'clang-format-lite)
 
 (defun clang-format-lite-on-disk ()
-  "Run `clang-format' in-place on the file on disk if it exists."
-  (interactive)
+  "Run `clang-format' in-place on the current buffer's file on disk if it exists."
   (let ((full-path (buffer-file-name)))
     (when full-path
-      (let ((quoted-filename (shell-quote-argument (file-relative-name full-path))))
-        (shell-command (format "clang-format -i %s" quoted-filename))
+      (let ((filename (file-relative-name full-path)))
+        (process-file "clang-format" nil nil nil "-i" filename)
         (revert-buffer t t)))))
 
 (defun clang-format-lite-save-hook ()
