@@ -5,7 +5,7 @@ a lightweight ELisp wrapper around the ~clang-format~ binary. It is also distinc
 [[https://github.com/SavchenkoValeriy/emacs-clang-format-plus][clang-format+]], which wraps the former to offer an on-save hook. We incorporate this
 functionality directly within our package.
 
-Why **clang-format-lite**?
+Why *clang-format-lite*?
 - It's lightweight with no dependencies on other packages.
 - Supports formatting of remote files, which the other packages do not.
 - Integrates `clang-format` on-save functionality directly.
