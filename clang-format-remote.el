@@ -53,8 +53,8 @@ non-nil: clang-format runs only when \".clang-format\" file is found"
   (interactive)
   (let ((full-path (buffer-file-name)))
     (when full-path
-      (let ((rel-path (file-relative-name full-path)))
-        (shell-command (format "clang-format -i %s" rel-path))
+      (let ((quoted-filename (shell-quote-argument (file-relative-name full-path))))
+        (shell-command (format "clang-format -i %s" quoted-filename))
         (revert-buffer t t)))))
 
 (defun clang-format-remote-save-hook ()
