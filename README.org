@@ -8,21 +8,32 @@ functionality directly within our package.
 Why *clang-format-lite*?
 - It's lightweight with no dependencies on other packages.
 - Supports formatting of remote files, which the other packages do not.
-- Integrates `clang-format` on-save functionality directly.
+- Integrates =clang-format= on-save functionality directly.
 
 ** Getting Started
 
-Ensure the =clang-format= binary is installed on your machine.
-
-If =clang-format-lite.el= is present under =~/.emacs.d/clang-format-lite/=,
-add the following to your init file:
+The package may be installed through [[https://www.emacswiki.org/emacs/MELPA][MELPA]]. I recommend [[https://github.com/jwiegley/use-package][use-package]].
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/clang-format-lite/")
-(require 'clang-format-lite)
-#+END_SRC
+  (require 'package)
+  (setq package-archives
+    '(("gnu" . "https://elpa.gnu.org/packages/")
+      ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+	    ("melpa-stable" . "https://stable.melpa.org/packages/")
+	    ("melpa" . "https://melpa.org/packages/"))
+	  package-archive-priorities
+	  '(("gnu" . 4)
+	    ("nongnu" . 3)
+	    ("melpa-stable" . 2)
+	    ("melpa" . 1)))
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package))
+    (require 'use-package)
 
-We are also in the process of uploading the package to MELPA.
+  (use-package clang-format-lite
+    :ensure t)
+#+END_SRC
 
 ** Configuration
 
@@ -39,10 +50,10 @@ There are two primary public interfaces.
 
 Here is a simple example:
 #+BEGIN_SRC emacs-lisp
-;; run clang-format only if the .clang-format file is found
-(setq clang-format-lite-only-if-config t)
-;; and we are in c++ mode
-(add-hook 'c++-mode-hook #'clang-format-lite-save-hook)
-;; or we are in c mode
-(add-hook 'c-mode-hook #'clang-format-lite-save-hook)
+  ;; run clang-format only if the .clang-format file is found
+  (setq clang-format-lite-only-if-config t)
+  ;; and we are in c++ mode
+  (add-hook 'c++-mode-hook #'clang-format-lite-save-hook)
+  ;; or we are in c mode
+  (add-hook 'c-mode-hook #'clang-format-lite-save-hook)
 #+END_SRC
