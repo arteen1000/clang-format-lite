@@ -12,24 +12,15 @@ Why *clang-format-lite*?
 
 ** Getting Started
 
-The package may be installed through [[https://www.emacswiki.org/emacs/MELPA][MELPA]]. I recommend [[https://github.com/jwiegley/use-package][use-package]].
+The package may be installed through [[https://www.emacswiki.org/emacs/MELPA][MELPA]]. I recommend [[https://jwiegley.github.io/use-package/installation/][use-package]].
 
 #+BEGIN_SRC emacs-lisp
   (require 'package)
-  (setq package-archives
-    '(("gnu" . "https://elpa.gnu.org/packages/")
-      ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-	    ("melpa-stable" . "https://stable.melpa.org/packages/")
-	    ("melpa" . "https://melpa.org/packages/"))
-	  package-archive-priorities
-	  '(("gnu" . 4)
-	    ("nongnu" . 3)
-	    ("melpa-stable" . 2)
-	    ("melpa" . 1)))
-    (unless (package-installed-p 'use-package)
-      (package-refresh-contents)
-      (package-install 'use-package))
-    (require 'use-package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (require 'use-package)
 
   (use-package clang-format-lite
     :ensure t)
