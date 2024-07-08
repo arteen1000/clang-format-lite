@@ -1,4 +1,4 @@
-;;; clang-format-lite.el --- A clang-format package with on-save and remote file support
+;;; clang-format-lite.el --- Format on-save with clang-format, supports remote files
 
 ;; Copyright (C) 2024 Arteen Abrishami
 
